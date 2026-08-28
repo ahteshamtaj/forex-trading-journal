@@ -1,0 +1,520 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Profile - Forex Journal
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .profile-page {
+
+        min-height: calc(100vh - 160px);
+
+        padding: 70px 8%;
+
+        background:
+            radial-gradient(
+                circle at top left,
+                rgba(84, 102, 255, 0.12),
+                transparent 35%
+            ),
+            #050914;
+
+        color: #ffffff;
+
+    }
+
+
+    .profile-container {
+
+        max-width: 850px;
+
+        margin: 0 auto;
+
+    }
+
+
+    .profile-header {
+
+        margin-bottom: 35px;
+
+    }
+
+
+    .profile-label {
+
+        color: #7187ff;
+
+        font-size: 13px;
+
+        font-weight: 800;
+
+        letter-spacing: 2px;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .profile-header h1 {
+
+        font-size: 46px;
+
+        margin: 0;
+
+        font-weight: 900;
+
+    }
+
+
+    .profile-header p {
+
+        color: #7f8aa3;
+
+        margin-top: 10px;
+
+    }
+
+
+    .profile-card {
+
+        background: rgba(13, 23, 43, 0.9);
+
+        border: 1px solid rgba(110, 130, 190, 0.18);
+
+        border-radius: 24px;
+
+        padding: 35px;
+
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.35);
+
+    }
+
+
+    .profile-top {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 25px;
+
+        padding-bottom: 30px;
+
+        margin-bottom: 30px;
+
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    }
+
+
+    .profile-avatar {
+
+        width: 90px;
+
+        height: 90px;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background:
+            linear-gradient(
+                135deg,
+                #586cff,
+                #794cff
+            );
+
+        color: white;
+
+        font-size: 32px;
+
+        font-weight: 900;
+
+        box-shadow:
+            0 10px 35px rgba(91, 92, 255, 0.35);
+
+    }
+
+
+    .profile-user-info h2 {
+
+        margin: 0;
+
+        font-size: 25px;
+
+    }
+
+
+    .profile-user-info p {
+
+        margin: 7px 0 0;
+
+        color: #8994ad;
+
+    }
+
+
+    .profile-form {
+
+        display: grid;
+
+        gap: 22px;
+
+    }
+
+
+    .profile-field {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 9px;
+
+    }
+
+
+    .profile-field label {
+
+        color: #9ca8c1;
+
+        font-size: 13px;
+
+        font-weight: 800;
+
+        letter-spacing: 1px;
+
+    }
+
+
+    .profile-field input {
+
+        width: 100%;
+
+        box-sizing: border-box;
+
+        padding: 15px 17px;
+
+        border-radius: 12px;
+
+        border: 1px solid rgba(110, 130, 190, 0.22);
+
+        background: #080f20;
+
+        color: white;
+
+        font-size: 15px;
+
+        outline: none;
+
+        transition: 0.2s ease;
+
+    }
+
+
+    .profile-field input:focus {
+
+        border-color: #6577ff;
+
+        box-shadow:
+            0 0 0 3px rgba(101, 119, 255, 0.12);
+
+    }
+
+
+    .profile-actions {
+
+        display: flex;
+
+        gap: 12px;
+
+        margin-top: 8px;
+
+    }
+
+
+    .profile-save {
+
+        border: none;
+
+        border-radius: 12px;
+
+        padding: 14px 25px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #5c70ff,
+                #7549e8
+            );
+
+        color: white;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        transition: 0.2s ease;
+
+    }
+
+
+    .profile-save:hover {
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 10px 25px rgba(91, 92, 255, 0.3);
+
+    }
+
+
+    .profile-dashboard {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 14px 22px;
+
+        border-radius: 12px;
+
+        border: 1px solid rgba(110, 130, 190, 0.25);
+
+        color: #a9b5d0;
+
+        text-decoration: none;
+
+        font-weight: 700;
+
+    }
+
+
+    .profile-dashboard:hover {
+
+        border-color: #6577ff;
+
+        color: white;
+
+    }
+
+
+    @media (max-width: 700px) {
+
+        .profile-page {
+
+            padding: 45px 20px;
+
+        }
+
+
+        .profile-header h1 {
+
+            font-size: 34px;
+
+        }
+
+
+        .profile-card {
+
+            padding: 24px;
+
+        }
+
+
+        .profile-top {
+
+            align-items: flex-start;
+
+        }
+
+
+        .profile-avatar {
+
+            width: 70px;
+
+            height: 70px;
+
+            font-size: 25px;
+
+        }
+
+
+        .profile-actions {
+
+            flex-direction: column;
+
+        }
+
+
+        .profile-save,
+        .profile-dashboard {
+
+            width: 100%;
+
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="profile-page">
+
+    <div class="profile-container">
+
+
+        <!-- =============================================
+             HEADER
+        ============================================== -->
+
+        <div class="profile-header">
+
+            <div class="profile-label">
+                ACCOUNT PROFILE
+            </div>
+
+            <h1>
+                Your Profile
+            </h1>
+
+            <p>
+                Manage your name and email address.
+            </p>
+
+        </div>
+
+
+        <!-- =============================================
+             PROFILE CARD
+        ============================================== -->
+
+        <div class="profile-card">
+
+
+            <!-- PROFILE TOP -->
+
+            <div class="profile-top">
+
+                <div class="profile-avatar">
+
+                    {{ profile_initial }}
+
+                </div>
+
+
+                <div class="profile-user-info">
+
+                    <h2>
+                        {{ user_name }}
+                    </h2>
+
+                    <p>
+                        {{ user_email }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 PROFILE FORM
+            ========================================== -->
+
+            <form
+                method="POST"
+                class="profile-form"
+            >
+
+
+                <!-- NAME -->
+
+                <div class="profile-field">
+
+                    <label for="name">
+                        FULL NAME
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ user_name }}"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="profile-field">
+
+                    <label for="email">
+                        EMAIL ADDRESS
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ user_email }}"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="profile-actions">
+
+                    <button
+                        type="submit"
+                        class="profile-save"
+                    >
+                        SAVE CHANGES
+                    </button>
+
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="profile-dashboard"
+                    >
+                        ← BACK TO DASHBOARD
+                    </a>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

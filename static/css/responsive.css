@@ -1,0 +1,74 @@
+@media (max-width: 700px) {
+
+    .navbar-container {
+        padding: 15px;
+    }
+
+
+    .nav-links {
+        gap: 12px;
+
+        font-size: 13px;
+    }
+
+
+    .hero {
+        padding:
+            50px 18px;
+    }
+
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+
+    .hero p {
+        font-size: 16px;
+    }
+
+
+    .auth-card {
+        padding: 25px 20px;
+
+        border-radius: 18px;
+    }
+
+
+    .dashboard-page {
+        padding:
+            35px 15px;
+    }
+
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .dashboard-header h1 {
+        font-size: 28px;
+    }
+
+
+    .trade-row {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+    }
+
+
+    .flash-container {
+        left: 15px;
+
+        right: 15px;
+    }
+
+
+    .flash {
+        min-width: auto;
+    }
+
+}

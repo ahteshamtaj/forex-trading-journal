@@ -1,0 +1,642 @@
+/* =========================================================
+   FOREX TRADING JOURNAL
+   ADD TRADE PAGE
+   PREMIUM DARK TRADING UI
+========================================================= */
+
+.add-trade-page {
+    min-height: 100vh;
+    padding: 45px 24px 70px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 8% 10%,
+            rgba(76, 110, 255, 0.16),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 92% 85%,
+            rgba(0, 190, 255, 0.08),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #030611 0%,
+            #070b18 52%,
+            #050816 100%
+        );
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.add-trade-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.022) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.022) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.add-trade-container {
+    width: min(900px, 100%);
+    margin: 0 auto;
+
+    position: relative;
+    z-index: 2;
+
+    animation: addTradeEnter 0.6s ease both;
+}
+
+@keyframes addTradeEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.add-trade-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.add-trade-label {
+    display: inline-block;
+
+    margin-bottom: 10px;
+
+    color: #789cff;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+.add-trade-header h1 {
+    margin: 0 0 9px;
+
+    color: #ffffff;
+
+    font-size: clamp(32px, 5vw, 46px);
+    line-height: 1;
+
+    letter-spacing: -2px;
+
+    font-weight: 850;
+}
+
+.add-trade-header p {
+    margin: 0;
+
+    color: #7d899f;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-journal-btn {
+    flex-shrink: 0;
+
+    min-height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 17px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    color: #aeb9cd;
+
+    text-decoration: none;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.back-journal-btn:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(100, 130, 255, 0.25);
+
+    background: rgba(91, 120, 255, 0.08);
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   FLASH MESSAGES
+========================================================= */
+
+.add-trade-messages {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-trade-message {
+    padding: 13px 15px;
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background: rgba(255, 255, 255, 0.035);
+
+    color: #dce4f5;
+
+    font-size: 12px;
+}
+
+.add-trade-message.success {
+    border-color: rgba(60, 210, 145, 0.24);
+
+    background: rgba(40, 190, 125, 0.07);
+
+    color: #8ff0bf;
+}
+
+.add-trade-message.error {
+    border-color: rgba(255, 90, 110, 0.24);
+
+    background: rgba(255, 70, 90, 0.07);
+
+    color: #ff9aa8;
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.add-trade-card {
+    padding: 30px;
+
+    border-radius: 24px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 24, 45, 0.92),
+            rgba(7, 12, 26, 0.95)
+        );
+
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+
+    box-shadow:
+        0 35px 90px rgba(0, 0, 0, 0.46),
+        inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.add-trade-form {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.form-group-full {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.form-group label {
+    color: #aeb9cd;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   INPUT + SELECT + TEXTAREA
+========================================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 12px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.form-group input,
+.form-group select {
+    min-height: 48px;
+
+    padding: 0 14px;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.form-group textarea {
+    min-height: 130px;
+
+    padding: 14px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #56637a;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.form-group select {
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #7f8ca3 50%),
+        linear-gradient(135deg, #7f8ca3 50%, transparent 50%);
+
+    background-position:
+        calc(100% - 18px) 21px,
+        calc(100% - 13px) 21px;
+
+    background-size:
+        5px 5px,
+        5px 5px;
+
+    background-repeat: no-repeat;
+}
+
+
+/* =========================================================
+   SELECT OPTIONS
+========================================================= */
+
+.form-group select option {
+    background: #0b1020;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+
+    border-color: rgba(100, 130, 255, 0.55);
+
+    background:
+        rgba(91, 120, 255, 0.055);
+
+    box-shadow:
+        0 0 0 3px rgba(91, 120, 255, 0.08);
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.form-actions {
+    grid-column: 1 / -1;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 8px;
+
+    padding-top: 24px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+/* =========================================================
+   CANCEL BUTTON
+========================================================= */
+
+.cancel-btn {
+    min-height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    color: #8996aa;
+
+    text-decoration: none;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.cancel-btn:hover {
+    transform: translateY(-2px);
+
+    background: rgba(255, 255, 255, 0.06);
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.save-trade-btn {
+    min-height: 46px;
+
+    padding: 0 24px;
+
+    border: 0;
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            100deg,
+            #587bf5,
+            #7250e9
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 850;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 14px 32px rgba(67, 87, 220, 0.25);
+
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.save-trade-btn:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.07);
+
+    box-shadow:
+        0 18px 38px rgba(67, 87, 220, 0.38);
+}
+
+.save-trade-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.back-journal-btn:focus-visible,
+.cancel-btn:focus-visible,
+.save-trade-btn:focus-visible,
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.form-group textarea:focus-visible {
+    outline: 2px solid rgba(130, 160, 255, 0.8);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .add-trade-page {
+        padding: 30px 15px 55px;
+    }
+
+    .add-trade-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+    .back-journal-btn {
+        width: 100%;
+    }
+
+    .add-trade-card {
+        padding: 21px 18px;
+
+        border-radius: 20px;
+    }
+
+    .add-trade-form {
+        grid-template-columns: 1fr;
+
+        gap: 19px;
+    }
+
+    .form-group-full {
+        grid-column: auto;
+    }
+
+    .form-actions {
+        grid-column: auto;
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+        gap: 10px;
+    }
+
+    .cancel-btn,
+    .save-trade-btn {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .add-trade-page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .add-trade-header h1 {
+        font-size: 31px;
+
+        letter-spacing: -1.5px;
+    }
+
+    .add-trade-card {
+        padding: 18px 15px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .add-trade-container {
+        animation: none;
+    }
+
+    .back-journal-btn,
+    .save-trade-btn,
+    .cancel-btn,
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        transition: none;
+    }
+}

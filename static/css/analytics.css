@@ -1,0 +1,997 @@
+
+/* =========================================================
+   FOREX TRADING JOURNAL
+   ANALYTICS PAGE
+   PREMIUM DARK TRADING UI
+========================================================= */
+
+
+/* =========================================================
+   ANALYTICS PAGE
+========================================================= */
+
+.analytics-page {
+
+    min-height: 100vh;
+
+    padding: 45px 24px 70px;
+
+    box-sizing: border-box;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 8% 10%,
+            rgba(76, 110, 255, 0.16),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 92% 85%,
+            rgba(0, 190, 255, 0.08),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #030611 0%,
+            #070b18 52%,
+            #050816 100%
+        );
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.analytics-page::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.022) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.022) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+
+    pointer-events: none;
+}
+
+
+.analytics-page::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+
+    height: 520px;
+
+    border-radius: 50%;
+
+    background: rgba(58, 94, 255, 0.10);
+
+    filter: blur(125px);
+
+    top: -300px;
+
+    right: -180px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.analytics-container {
+
+    width: min(1180px, 100%);
+
+    margin: 0 auto;
+
+    position: relative;
+
+    z-index: 2;
+
+    animation: analyticsEnter 0.65s ease both;
+}
+
+
+@keyframes analyticsEnter {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(18px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.analytics-header {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 30px;
+}
+
+
+.analytics-label {
+
+    display: inline-block;
+
+    margin-bottom: 10px;
+
+    color: #789cff;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+
+.analytics-header h1 {
+
+    margin: 0 0 9px;
+
+    color: #ffffff;
+
+    font-size: clamp(32px, 5vw, 48px);
+
+    line-height: 1;
+
+    letter-spacing: -2px;
+
+    font-weight: 850;
+}
+
+
+.analytics-header p {
+
+    margin: 0;
+
+    color: #7d899f;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   DASHBOARD BUTTON
+========================================================= */
+
+.analytics-dashboard-btn {
+
+    flex-shrink: 0;
+
+    min-height: 45px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 18px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(120, 156, 255, 0.20);
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(91, 120, 255, 0.10),
+            rgba(75, 95, 180, 0.055)
+        );
+
+    color: #9db4ff;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 850;
+
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.035),
+        0 8px 25px rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.analytics-dashboard-btn:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(91, 120, 255, 0.18),
+            rgba(75, 95, 180, 0.10)
+        );
+
+    border-color: rgba(120, 156, 255, 0.38);
+
+    color: #c4d2ff;
+
+    box-shadow:
+        0 12px 30px rgba(67, 87, 220, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+
+/* =========================================================
+   ANALYTICS STATS
+========================================================= */
+
+.analytics-stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   STAT CARD
+========================================================= */
+
+.analytics-stat-card {
+
+    position: relative;
+
+    min-height: 125px;
+
+    padding: 21px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    border-radius: 19px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 24, 45, 0.92),
+            rgba(7, 12, 26, 0.95)
+        );
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.30),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.analytics-stat-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+
+    height: 100px;
+
+    top: -50px;
+
+    right: -45px;
+
+    border-radius: 50%;
+
+    background: rgba(82, 112, 255, 0.10);
+
+    filter: blur(20px);
+
+    pointer-events: none;
+}
+
+
+.analytics-stat-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: rgba(100, 130, 255, 0.18);
+
+    box-shadow:
+        0 25px 65px rgba(0, 0, 0, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+
+.analytics-stat-card span {
+
+    color: #718099;
+
+    font-size: 9px;
+
+    font-weight: 850;
+
+    letter-spacing: 1.1px;
+
+    text-transform: uppercase;
+}
+
+
+.analytics-stat-card strong {
+
+    color: #ffffff;
+
+    font-size: 27px;
+
+    line-height: 1;
+
+    font-weight: 850;
+
+    letter-spacing: -1px;
+}
+
+
+/* =========================================================
+   PROFIT / LOSS COLORS
+========================================================= */
+
+.positive {
+
+    color: #5fe5a2 !important;
+}
+
+
+.negative {
+
+    color: #ff7485 !important;
+}
+
+
+.neutral {
+
+    color: #7c899f !important;
+}
+
+
+/* =========================================================
+   MAIN ANALYTICS CARD
+========================================================= */
+
+.analytics-card {
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 24, 45, 0.92),
+            rgba(7, 12, 26, 0.95)
+        );
+
+    backdrop-filter: blur(24px);
+
+    -webkit-backdrop-filter: blur(24px);
+
+    box-shadow:
+        0 35px 90px rgba(0, 0, 0, 0.46),
+        inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.analytics-card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 25px 28px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.analytics-card-header h2 {
+
+    margin: 0 0 5px;
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.3px;
+}
+
+
+.analytics-card-header p {
+
+    margin: 0;
+
+    color: #6f7c93;
+
+    font-size: 11px;
+
+    letter-spacing: 0.3px;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.analytics-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    scrollbar-width: thin;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.analytics-table {
+
+    width: 100%;
+
+    min-width: 720px;
+
+    border-collapse: collapse;
+
+    font-size: 12px;
+}
+
+
+.analytics-table thead {
+
+    background: rgba(255, 255, 255, 0.025);
+}
+
+
+.analytics-table th {
+
+    padding: 15px 20px;
+
+    color: #73819a;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    text-align: left;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    white-space: nowrap;
+}
+
+
+.analytics-table td {
+
+    padding: 17px 20px;
+
+    color: #aeb9cd;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+
+    vertical-align: middle;
+}
+
+
+.analytics-table tbody tr {
+
+    transition:
+        background 0.2s ease;
+}
+
+
+.analytics-table tbody tr:hover {
+
+    background: rgba(91, 120, 255, 0.045);
+}
+
+
+.analytics-table tbody tr:last-child td {
+
+    border-bottom: 0;
+}
+
+
+/* =========================================================
+   PAIR
+========================================================= */
+
+.analytics-pair {
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.3px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.analytics-empty {
+
+    min-height: 330px;
+
+    padding: 45px 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.analytics-empty-icon {
+
+    width: 62px;
+
+    height: 62px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border: 1px solid rgba(100, 130, 255, 0.20);
+
+    border-radius: 19px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(88, 123, 245, 0.12),
+            rgba(114, 80, 233, 0.08)
+        );
+
+    font-size: 26px;
+
+    box-shadow:
+        0 15px 35px rgba(67, 87, 220, 0.12);
+}
+
+
+.analytics-empty h3 {
+
+    margin: 0 0 8px;
+
+    color: #ffffff;
+
+    font-size: 19px;
+
+    font-weight: 800;
+}
+
+
+.analytics-empty p {
+
+    max-width: 420px;
+
+    margin: 0 0 22px;
+
+    color: #69768d;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ADD TRADE BUTTON
+========================================================= */
+
+.analytics-add-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 44px;
+
+    padding: 0 20px;
+
+    border: 1px solid rgba(92, 130, 255, 0.35);
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #526fff,
+            #4059d9
+        );
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 850;
+
+    box-shadow:
+        0 12px 30px rgba(67, 87, 220, 0.24);
+
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.analytics-add-btn:hover {
+
+    transform: translateY(-2px);
+
+    filter: brightness(1.07);
+
+    box-shadow:
+        0 17px 36px rgba(67, 87, 220, 0.34);
+}
+
+
+/* =========================================================
+   FOOTER ACTION
+========================================================= */
+
+.analytics-footer-action {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 24px;
+}
+
+
+.analytics-journal-btn {
+
+    min-height: 45px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 20px;
+
+    border: 1px solid rgba(120, 156, 255, 0.18);
+
+    border-radius: 12px;
+
+    background: rgba(91, 120, 255, 0.055);
+
+    color: #9db4ff;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 850;
+
+    letter-spacing: 0.5px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.analytics-journal-btn:hover {
+
+    transform: translateY(-2px);
+
+    background: rgba(91, 120, 255, 0.11);
+
+    border-color: rgba(120, 156, 255, 0.32);
+
+    color: #c4d2ff;
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.analytics-dashboard-btn:focus-visible,
+.analytics-add-btn:focus-visible,
+.analytics-journal-btn:focus-visible {
+
+    outline: 2px solid rgba(130, 160, 255, 0.8);
+
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .analytics-stats {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .analytics-page {
+
+        padding: 30px 15px 55px;
+    }
+
+
+    .analytics-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+
+    .analytics-dashboard-btn {
+
+        width: 100%;
+    }
+
+
+    .analytics-stats {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+
+    .analytics-stat-card {
+
+        min-height: 112px;
+
+        padding: 18px;
+    }
+
+
+    .analytics-stat-card strong {
+
+        font-size: 23px;
+    }
+
+
+    .analytics-card {
+
+        border-radius: 20px;
+    }
+
+
+    .analytics-card-header {
+
+        padding: 21px 18px;
+    }
+
+
+    .analytics-empty {
+
+        min-height: 320px;
+
+        padding: 35px 20px;
+    }
+
+
+    .analytics-footer-action {
+
+        margin-top: 20px;
+    }
+
+
+    .analytics-journal-btn {
+
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .analytics-page {
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+    }
+
+
+    .analytics-header h1 {
+
+        font-size: 31px;
+
+        letter-spacing: -1.5px;
+    }
+
+
+    .analytics-stats {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+
+    .analytics-stat-card {
+
+        min-height: 106px;
+
+        padding: 16px;
+    }
+
+
+    .analytics-stat-card span {
+
+        font-size: 8px;
+    }
+
+
+    .analytics-stat-card strong {
+
+        font-size: 21px;
+    }
+
+
+    .analytics-empty-icon {
+
+        width: 56px;
+
+        height: 56px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .analytics-container {
+
+        animation: none;
+    }
+
+
+    .analytics-stat-card,
+    .analytics-dashboard-btn,
+    .analytics-add-btn,
+    .analytics-journal-btn {
+
+        transition: none;
+    }
+
+}
+

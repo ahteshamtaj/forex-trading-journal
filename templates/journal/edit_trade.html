@@ -1,0 +1,289 @@
+```html
+{% extends "base.html" %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/add_trade.css') }}"
+>
+
+{% endblock %}
+
+
+{% block title %}
+
+Edit Trade | Forex Trading Journal
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="add-trade-page">
+
+    <div class="add-trade-container">
+
+        <!-- =========================================
+             HEADER
+        ========================================== -->
+
+        <div class="add-trade-header">
+
+            <div>
+
+                <span class="add-trade-label">
+                    TRADE JOURNAL
+                </span>
+
+                <h1>
+                    Edit Trade
+                </h1>
+
+                <p>
+                    Update your trade details and keep your journal accurate.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('journal.journal') }}"
+                class="back-journal-btn"
+            >
+                ← Back to Journal
+            </a>
+
+        </div>
+
+
+        <!-- =========================================
+             FLASH MESSAGES
+        ========================================== -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="add-trade-messages">
+
+                    {% for category, message in messages %}
+
+                        <div class="add-trade-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =========================================
+             EDIT TRADE CARD
+        ========================================== -->
+
+        <div class="add-trade-card">
+
+            <form
+                method="POST"
+                action="{{ url_for('journal.edit_trade', trade_id=trade['id']) }}"
+                class="add-trade-form"
+                autocomplete="off"
+            >
+
+
+                <!-- =====================================
+                     DATE
+                ====================================== -->
+
+                <div class="form-group">
+
+                    <label for="trade_date">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="trade_date"
+                        name="trade_date"
+                        value="{{ trade['trade_date'] or '' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =====================================
+                     PAIR
+                ====================================== -->
+
+                <div class="form-group">
+
+                    <label for="pair_name">
+                        Trading Pair
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pair_name"
+                        name="pair_name"
+                        placeholder="e.g. XAUUSD"
+                        maxlength="20"
+                        value="{{ trade['pair_name'] or '' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =====================================
+                     BUY / SELL
+                ====================================== -->
+
+                <div class="form-group">
+
+                    <label for="trade_type">
+                        Buy / Sell
+                    </label>
+
+                    <select
+                        id="trade_type"
+                        name="trade_type"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            disabled
+                        >
+                            Select trade type
+                        </option>
+
+                        <option
+                            value="Buy"
+                            {% if trade['trade_type']|lower == 'buy' %}
+                                selected
+                            {% endif %}
+                        >
+                            Buy
+                        </option>
+
+                        <option
+                            value="Sell"
+                            {% if trade['trade_type']|lower == 'sell' %}
+                                selected
+                            {% endif %}
+                        >
+                            Sell
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- =====================================
+                     LOT SIZE
+                ====================================== -->
+
+                <div class="form-group">
+
+                    <label for="lot_size">
+                        Lot Size
+                    </label>
+
+                    <input
+                        type="number"
+                        id="lot_size"
+                        name="lot_size"
+                        placeholder="e.g. 0.10"
+                        min="0"
+                        step="0.01"
+                        inputmode="decimal"
+                        value="{{ trade['lot_size'] if trade['lot_size'] is not none else '' }}"
+                    >
+
+                </div>
+
+
+                <!-- =====================================
+                     PROFIT / LOSS
+                ====================================== -->
+
+                <div class="form-group">
+
+                    <label for="profit_loss">
+                        Profit / Loss
+                    </label>
+
+                    <input
+                        type="number"
+                        id="profit_loss"
+                        name="profit_loss"
+                        placeholder="e.g. 25.50 or -15.00"
+                        step="0.01"
+                        inputmode="decimal"
+                        value="{{ trade['profit_loss'] if trade['profit_loss'] is not none else '0' }}"
+                    >
+
+                </div>
+
+
+                <!-- =====================================
+                     MISTAKE
+                ====================================== -->
+
+                <div class="form-group form-group-full">
+
+                    <label for="mistake">
+                        Mistake
+                    </label>
+
+                    <textarea
+                        id="mistake"
+                        name="mistake"
+                        rows="5"
+                        maxlength="1000"
+                        placeholder="What mistake did you make in this trade?"
+                    >{{ trade['mistake'] or '' }}</textarea>
+
+                </div>
+
+
+                <!-- =====================================
+                     ACTIONS
+                ====================================== -->
+
+                <div class="form-actions">
+
+                    <a
+                        href="{{ url_for('journal.journal') }}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="save-trade-btn"
+                    >
+                        Update Trade
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

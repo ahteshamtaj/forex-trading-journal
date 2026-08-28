@@ -1,0 +1,1072 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Forex Trading Journal
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   HOME FEATURES - PREMIUM STYLE
+========================================================= */
+
+.home-features {
+    position: relative;
+
+    padding: 100px 24px;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(64, 116, 255, 0.12),
+            transparent 45%
+        );
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.section-heading {
+    max-width: 850px;
+
+    margin: 0 auto 55px;
+
+    text-align: center;
+}
+
+.section-heading > span {
+    display: inline-block;
+
+    margin-bottom: 14px;
+
+    color: #62b8ff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2.5px;
+}
+
+.section-heading h2 {
+    margin: 0 0 18px;
+
+    color: #ffffff;
+
+    font-size: clamp(32px, 5vw, 52px);
+
+    line-height: 1.08;
+
+    letter-spacing: -1.5px;
+}
+
+.section-heading h2 strong {
+    display: inline;
+
+    background:
+        linear-gradient(
+            90deg,
+            #63b8ff,
+            #8d7cff,
+            #b58cff
+        );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    color: transparent;
+}
+
+.section-heading p {
+    max-width: 700px;
+
+    margin: auto;
+
+    color: #8fa1bb;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FEATURE GRID
+========================================================= */
+
+.feature-grid {
+    width: min(1200px, 100%);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   FEATURE CARD
+========================================================= */
+
+.feature-card {
+    position: relative;
+
+    min-height: 300px;
+
+    padding: 32px 28px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(91, 150, 255, 0.22);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(34, 76, 170, 0.55),
+            rgba(18, 35, 82, 0.72)
+        );
+
+    box-shadow:
+        0 20px 45px
+        rgba(0, 0, 0, 0.22),
+
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.08);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.feature-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 170px;
+
+    height: 170px;
+
+    top: -80px;
+
+    right: -60px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(70, 130, 255, 0.20);
+
+    filter: blur(35px);
+
+    pointer-events: none;
+}
+
+
+.feature-card:hover {
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(92, 164, 255, 0.48);
+
+    box-shadow:
+        0 28px 60px
+        rgba(20, 80, 180, 0.25),
+
+        0 0 35px
+        rgba(60, 130, 255, 0.08);
+}
+
+
+/* =========================================================
+   FEATURE ICON
+========================================================= */
+
+.feature-icon {
+    position: relative;
+
+    width: 68px;
+
+    height: 68px;
+
+    margin-bottom: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        1px solid
+        rgba(130, 205, 255, 0.35);
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #348dff,
+            #5268ff
+        );
+
+    box-shadow:
+        0 12px 30px
+        rgba(39, 112, 255, 0.35),
+
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.25);
+}
+
+
+.feature-icon::before {
+    content: "";
+
+    position: absolute;
+
+    inset: -10px;
+
+    border-radius: 24px;
+
+    background:
+        rgba(55, 137, 255, 0.22);
+
+    filter: blur(16px);
+
+    z-index: -1;
+}
+
+
+.feature-icon svg {
+    width: 32px;
+
+    height: 32px;
+
+    fill: none;
+
+    stroke: #ffffff;
+
+    stroke-width: 1.8;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+
+    filter:
+        drop-shadow(
+            0 2px 5px
+            rgba(0, 0, 0, 0.20)
+        );
+}
+
+
+/* =========================================================
+   FEATURE CONTENT
+========================================================= */
+
+.feature-content h3 {
+    margin: 0 0 12px;
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
+}
+
+
+.feature-content p {
+    margin: 0;
+
+    color: #a9b9d1;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   PROCESS
+========================================================= */
+
+.home-process {
+    position: relative;
+
+    padding: 100px 24px;
+
+    background:
+        rgba(5, 10, 25, 0.45);
+}
+
+
+.process-grid {
+    width: min(1000px, 100%);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+
+.process-card {
+    padding: 30px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    border-radius: 20px;
+
+    background:
+        rgba(17, 27, 52, 0.65);
+}
+
+
+.process-number {
+    width: 48px;
+
+    height: 48px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #407eff,
+            #6855ff
+        );
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 25px
+        rgba(65, 108, 255, 0.25);
+}
+
+
+.process-card h3 {
+    margin-bottom: 10px;
+
+    color: #ffffff;
+
+    font-size: 19px;
+}
+
+
+.process-card p {
+    color: #91a1b8;
+
+    line-height: 1.7;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.home-cta {
+    padding: 100px 24px;
+}
+
+
+.cta-card {
+    width: min(1050px, 100%);
+
+    margin: auto;
+
+    padding: 70px 30px;
+
+    text-align: center;
+
+    border:
+        1px solid
+        rgba(91, 135, 255, 0.25);
+
+    border-radius: 28px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(88, 103, 255, 0.20),
+            transparent 60%
+        ),
+        rgba(15, 25, 50, 0.75);
+
+    box-shadow:
+        0 30px 80px
+        rgba(0, 0, 0, 0.25);
+}
+
+
+.cta-content > span {
+    color: #6ebcff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+.cta-content h2 {
+    max-width: 750px;
+
+    margin: 18px auto;
+
+    color: #ffffff;
+
+    font-size: clamp(32px, 5vw, 52px);
+
+    line-height: 1.1;
+}
+
+
+.cta-content h2 strong {
+    display: block;
+
+    background:
+        linear-gradient(
+            90deg,
+            #62b8ff,
+            #9a82ff
+        );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    color: transparent;
+}
+
+
+.cta-content p {
+    max-width: 650px;
+
+    margin: 0 auto 30px;
+
+    color: #9baac0;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CTA BUTTONS
+========================================================= */
+
+.cta-buttons {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 950px) {
+
+    .feature-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .home-features,
+    .home-process,
+    .home-cta {
+        padding:
+            70px 18px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .feature-card {
+        min-height: auto;
+
+        padding: 28px 24px;
+    }
+
+    .feature-icon {
+        width: 62px;
+
+        height: 62px;
+
+        margin-bottom: 22px;
+    }
+
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-card {
+        padding: 50px 22px;
+    }
+
+    .cta-buttons {
+
+        flex-direction: column;
+
+        width: 100%;
+
+    }
+
+    .cta-buttons .btn {
+
+        width: 100%;
+
+        max-width: 300px;
+
+        text-align: center;
+
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-background">
+
+        <div class="orb orb-one"></div>
+
+        <div class="orb orb-two"></div>
+
+        <div class="orb orb-three"></div>
+
+    </div>
+
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            ADVANCED TRADING JOURNAL
+        </div>
+
+
+        <h1>
+
+            TRADE SMARTER
+
+            <span>
+                JOURNAL BETTER
+            </span>
+
+        </h1>
+
+
+        <p>
+
+            TRACK EVERY TRADE, ANALYZE YOUR PERFORMANCE,
+            IDENTIFY YOUR MISTAKES AND BUILD THE DISCIPLINE
+            YOU NEED TO BECOME A BETTER TRADER.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <div class="hero-scroll">
+
+                <a
+                    href="#features"
+                    class="scroll-link"
+                >
+
+                    <span>
+                        EXPLORE FEATURES
+                    </span>
+
+                    <span class="scroll-arrow">
+                        ↓
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PREMIUM FEATURES
+========================================================= -->
+
+<section
+    class="home-features"
+    id="features"
+>
+
+    <div class="section-heading">
+
+        <span>
+            POWERFUL FEATURES
+        </span>
+
+        <h2>
+            EVERYTHING YOU NEED TO
+            <strong>TRADE WITH DISCIPLINE</strong>
+        </h2>
+
+        <p>
+            KEEP YOUR TRADING DATA ORGANIZED AND UNDERSTAND
+            WHAT IS ACTUALLY WORKING.
+        </p>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+
+        <!-- FEATURE 1 -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+
+                    <rect
+                        x="3"
+                        y="4"
+                        width="18"
+                        height="17"
+                        rx="3"
+                    />
+
+                    <path d="M8 2v4"/>
+
+                    <path d="M16 2v4"/>
+
+                    <path d="M3 9h18"/>
+
+                    <path d="M8 13h2"/>
+
+                    <path d="M14 13h2"/>
+
+                    <path d="M8 17h2"/>
+
+                    <path d="M14 17h2"/>
+
+                </svg>
+
+            </div>
+
+
+            <div class="feature-content">
+
+                <h3>
+                    TRADE JOURNAL
+                </h3>
+
+                <p>
+                    RECORD YOUR TRADES, PAIRS, TRADE TYPE,
+                    PROFIT OR LOSS AND MISTAKES IN ONE
+                    BEAUTIFUL JOURNAL.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FEATURE 2 -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+
+                    <path d="M4 19V5"/>
+
+                    <path d="M4 19h17"/>
+
+                    <path d="m7 15 4-5 3 3 6-7"/>
+
+                    <path d="M17 6h3v3"/>
+
+                </svg>
+
+            </div>
+
+
+            <div class="feature-content">
+
+                <h3>
+                    PERFORMANCE TRACKING
+                </h3>
+
+                <p>
+                    TRACK YOUR TRADING PERFORMANCE WITH
+                    CLEAR RESULTS AND UNDERSTAND YOUR
+                    OVERALL TRADING PERFORMANCE.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FEATURE 3 -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="8"
+                    />
+
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="4"
+                    />
+
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="1.5"
+                    />
+
+                    <path d="M17.5 6.5 21 3"/>
+
+                    <path d="M18 3h3v3"/>
+
+                </svg>
+
+            </div>
+
+
+            <div class="feature-content">
+
+                <h3>
+                    MISTAKE ANALYSIS
+                </h3>
+
+                <p>
+                    IDENTIFY YOUR TRADING MISTAKES,
+                    UNDERSTAND PATTERNS AND STOP REPEATING
+                    THE SAME ERRORS.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FEATURE 4 -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="
+                        M12 3
+                        20 6
+                        v5
+                        c0 5-3.5 8.5-8 10
+                        -4.5-1.5-8-5-8-10
+                        V6
+                        l8-3Z
+                        "
+                    />
+
+                    <path d="m9 12 2 2 4-4"/>
+
+                </svg>
+
+            </div>
+
+
+            <div class="feature-content">
+
+                <h3>
+                    TRADING DISCIPLINE
+                </h3>
+
+                <p>
+                    BUILD CONSISTENCY BY REVIEWING YOUR
+                    DECISIONS AND LEARNING FROM EVERY
+                    TRADING SESSION.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PROCESS
+========================================================= -->
+
+<section class="home-process">
+
+    <div class="section-heading">
+
+        <span>
+            SIMPLE PROCESS
+        </span>
+
+        <h2>
+            TRADE. RECORD.
+            <strong>IMPROVE.</strong>
+        </h2>
+
+        <p>
+            A SIMPLE, PROFESSIONAL WORKFLOW DESIGNED
+            TO STREAMLINE YOUR TRADING REVIEW, ANALYZE
+            PERFORMANCE, AND HELP YOU MAKE BETTER
+            TRADING DECISIONS.
+        </p>
+
+    </div>
+
+
+    <div class="process-grid">
+
+
+        <div class="process-card">
+
+            <div class="process-number">
+                1
+            </div>
+
+            <h3>
+                TAKE YOUR TRADE
+            </h3>
+
+            <p>
+                FOLLOW YOUR TRADING STRATEGY AND
+                EXECUTE YOUR SETUP WITH DISCIPLINE.
+            </p>
+
+        </div>
+
+
+        <div class="process-card">
+
+            <div class="process-number">
+                2
+            </div>
+
+            <h3>
+                RECORD IT
+            </h3>
+
+            <p>
+                ADD THE IMPORTANT DETAILS OF YOUR
+                TRADE TO YOUR JOURNAL.
+            </p>
+
+        </div>
+
+
+        <div class="process-card">
+
+            <div class="process-number">
+                3
+            </div>
+
+            <h3>
+                REVIEW & IMPROVE
+            </h3>
+
+            <p>
+                STUDY YOUR RESULTS AND MISTAKES
+                TO IMPROVE YOUR FUTURE DECISIONS.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="home-cta">
+
+    <div class="cta-card">
+
+        <div class="cta-content">
+
+            <span>
+                START YOUR JOURNEY
+            </span>
+
+
+            <h2>
+
+                YOUR NEXT TRADE DESERVES
+
+                <strong>
+                    A BETTER JOURNAL
+                </strong>
+
+            </h2>
+
+
+            <p>
+
+                STOP RELYING ON MEMORY.
+                START TRACKING YOUR TRADING JOURNEY
+                WITH CLARITY, CONSISTENCY, AND PURPOSE.
+
+            </p>
+
+
+            <!-- =================================================
+                 FINAL HOME PAGE BUTTONS
+            ================================================== -->
+
+            <div class="cta-buttons">
+
+
+                {% if session.get("user_id") %}
+
+                    <!-- LOGGED-IN USER -->
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="btn btn-primary"
+                    >
+                        OPEN DASHBOARD →
+                    </a>
+
+
+                {% else %}
+
+                    <!-- NEW USER -->
+
+                    <a
+                        href="{{ url_for('auth.login') }}"
+                        class="btn btn-primary"
+                    >
+                        LOGIN →
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('auth.register') }}"
+                        class="btn btn-secondary"
+                    >
+                        REGISTER →
+                    </a>
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

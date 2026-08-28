@@ -1,0 +1,82 @@
+@keyframes float {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes pulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.hero-content {
+    animation:
+        fadeIn 1s ease forwards;
+}
+
+
+.orb-one {
+    animation:
+        float 7s ease-in-out infinite;
+}
+
+
+.orb-two {
+    animation:
+        float 9s ease-in-out infinite;
+}
+
+
+.orb-three {
+    animation:
+        float 6s ease-in-out infinite;
+}
+
+
+.auth-card {
+    animation:
+        fadeIn 0.7s ease forwards;
+}
+
+
+.stat-card {
+    animation:
+        fadeIn 0.7s ease forwards;
+}

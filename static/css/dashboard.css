@@ -1,0 +1,837 @@
+
+/* =========================================================
+   FOREX TRADING JOURNAL
+   DASHBOARD
+   PREMIUM DARK TRADING UI
+========================================================= */
+
+.dashboard-page {
+    min-height: 100vh;
+    padding: 45px 24px 70px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 8% 8%,
+            rgba(76, 110, 255, 0.16),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 92% 85%,
+            rgba(0, 190, 255, 0.08),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #030611 0%,
+            #070b18 52%,
+            #050816 100%
+        );
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.dashboard-page::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.022) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.022) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.dashboard-page > * {
+    position: relative;
+    z-index: 2;
+}
+
+.dashboard-header,
+.stats-grid,
+.dashboard-empty {
+    width: min(1180px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.dashboard-header {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 32px;
+
+    animation: dashboardEnter 0.6s ease both;
+}
+
+@keyframes dashboardEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.dashboard-label {
+    margin: 0 0 10px;
+
+    color: #789cff;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+
+.dashboard-header h1 {
+    margin: 0 0 9px;
+
+    color: #ffffff;
+
+    font-size: clamp(30px, 5vw, 46px);
+
+    line-height: 1;
+
+    letter-spacing: -2px;
+
+    font-weight: 850;
+}
+
+
+.dashboard-header > div > p:last-child {
+    margin: 0;
+
+    color: #7d899f;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   LOGOUT BUTTON
+========================================================= */
+
+.dashboard-header .btn-secondary {
+    flex-shrink: 0;
+
+    min-height: 45px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 20px;
+
+    border: 1px solid rgba(255, 90, 110, 0.18);
+
+    border-radius: 12px;
+
+    background: rgba(255, 70, 90, 0.055);
+
+    color: #e98592;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.dashboard-header .btn-secondary:hover {
+    transform: translateY(-2px);
+
+    background: rgba(255, 70, 90, 0.10);
+
+    border-color: rgba(255, 90, 110, 0.32);
+
+    color: #ff9aa7;
+}
+
+
+/* =========================================================
+   STATS GRID
+========================================================= */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+    animation: dashboardEnter 0.7s ease both;
+}
+
+
+/* =========================================================
+   STAT CARD
+========================================================= */
+
+.stat-card {
+    position: relative;
+
+    min-height: 130px;
+
+    padding: 21px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    border-radius: 19px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 24, 45, 0.92),
+            rgba(7, 12, 26, 0.95)
+        );
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.30),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.stat-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    top: -50px;
+    right: -45px;
+
+    border-radius: 50%;
+
+    background: rgba(82, 112, 255, 0.10);
+
+    filter: blur(20px);
+
+    pointer-events: none;
+}
+
+
+.stat-card:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(100, 130, 255, 0.18);
+
+    box-shadow:
+        0 25px 65px rgba(0, 0, 0, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+
+.stat-card span {
+    color: #718099;
+
+    font-size: 9px;
+
+    font-weight: 850;
+
+    letter-spacing: 1.1px;
+}
+
+
+.stat-card strong {
+    color: #ffffff;
+
+    font-size: 28px;
+
+    line-height: 1;
+
+    font-weight: 850;
+
+    letter-spacing: -1px;
+}
+
+
+/* =========================================================
+   DASHBOARD MAIN CARD
+========================================================= */
+
+.dashboard-empty {
+    min-height: 330px;
+
+    box-sizing: border-box;
+
+    padding: 28px;
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 24, 45, 0.92),
+            rgba(7, 12, 26, 0.95)
+        );
+
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+
+    box-shadow:
+        0 35px 90px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.045);
+
+    animation: dashboardEnter 0.8s ease both;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.dashboard-empty:has(.empty-icon) {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border: 1px solid rgba(100, 130, 255, 0.20);
+
+    border-radius: 19px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(88, 123, 245, 0.12),
+            rgba(114, 80, 233, 0.08)
+        );
+
+    font-size: 27px;
+
+    box-shadow:
+        0 15px 35px rgba(67, 87, 220, 0.12);
+}
+
+
+.dashboard-empty h2 {
+    margin: 0 0 9px;
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    font-weight: 800;
+}
+
+
+.dashboard-empty > p {
+    max-width: 430px;
+
+    margin: 0;
+
+    color: #69768d;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   RECENT TRADES
+========================================================= */
+
+.dashboard-empty > h2 {
+    margin-bottom: 20px;
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.3px;
+}
+
+
+.trade-list {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+/* =========================================================
+   TRADE ROW
+   DATE | PAIR | BUY/SELL | P/L
+========================================================= */
+
+.trade-row {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr
+        1.5fr
+        1fr
+        1fr;
+
+    align-items: center;
+
+    gap: 20px;
+
+    min-height: 58px;
+
+    padding: 0 18px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(255, 255, 255, 0.055);
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    color: #aeb9cd;
+
+    font-size: 12px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.trade-row:hover {
+    transform: translateX(3px);
+
+    background: rgba(91, 120, 255, 0.045);
+
+    border-color: rgba(100, 130, 255, 0.12);
+}
+
+
+/* DATE */
+
+.trade-row span:nth-child(1) {
+    color: #dce4f5;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* PAIR */
+
+.trade-row span:nth-child(2) {
+    color: #8da4df;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+
+/* BUY / SELL */
+
+.trade-row span:nth-child(3) {
+    color: #9eacc4;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+
+/* PROFIT / LOSS */
+
+.trade-row span:nth-child(4) {
+    color: #ffffff;
+
+    font-weight: 850;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .dashboard-page {
+        padding: 30px 15px 55px;
+    }
+
+
+    .dashboard-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+
+    .dashboard-header .btn-secondary {
+        width: 100%;
+    }
+
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+
+    .stat-card {
+        min-height: 115px;
+
+        padding: 18px;
+    }
+
+
+    .stat-card strong {
+        font-size: 24px;
+    }
+
+
+    .dashboard-empty {
+        padding: 22px 17px;
+
+        border-radius: 20px;
+    }
+
+
+    .trade-row {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 10px;
+
+        min-height: auto;
+
+        padding: 15px 13px;
+    }
+
+
+    .trade-row span:nth-child(3) {
+        text-align: left;
+    }
+
+
+    .trade-row span:nth-child(4) {
+        text-align: right;
+    }
+
+}
+
+
+@media (max-width: 430px) {
+
+    .dashboard-page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+
+    .dashboard-header h1 {
+        font-size: 30px;
+
+        letter-spacing: -1.5px;
+    }
+
+
+    .stats-grid {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+
+    .stat-card {
+        min-height: 108px;
+
+        padding: 16px;
+    }
+
+
+    .stat-card span {
+        font-size: 8px;
+    }
+
+
+    .stat-card strong {
+        font-size: 22px;
+    }
+
+
+    .trade-row {
+        grid-template-columns:
+            1fr 1fr;
+
+        min-height: auto;
+
+        padding: 13px 10px;
+
+        font-size: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .dashboard-header,
+    .stats-grid,
+    .dashboard-empty {
+        animation: none;
+    }
+
+    .stat-card,
+    .trade-row,
+    .dashboard-header .btn-secondary {
+        transition: none;
+    }
+}
+
+/* =========================================================
+   OPEN TRADE JOURNAL BUTTON
+========================================================= */
+
+.open-journal-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+
+    margin-top: 24px;
+    padding: 0 22px;
+
+    border: 1px solid rgba(105, 135, 255, 0.22);
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            100deg,
+            #587bf5,
+            #7250e9
+        );
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 11px;
+    font-weight: 850;
+
+    letter-spacing: 0.3px;
+
+    box-shadow:
+        0 14px 35px rgba(67, 87, 220, 0.25);
+
+    transition:
+        transform 0.22s ease,
+        filter 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease;
+}
+
+
+.open-journal-btn:hover {
+    transform: translateY(-3px);
+
+    filter: brightness(1.08);
+
+    border-color: rgba(130, 155, 255, 0.40);
+
+    box-shadow:
+        0 19px 42px rgba(67, 87, 220, 0.38);
+}
+
+
+.open-journal-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .open-journal-btn {
+        width: 100%;
+
+        margin-top: 22px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.open-journal-btn:focus-visible {
+    outline: 2px solid rgba(130, 160, 255, 0.8);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .open-journal-btn {
+        transition: none;
+    }
+
+}
+.dashboard-header-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+@media (max-width: 700px) {
+
+    .dashboard-header-actions {
+
+        margin-top: 20px;
+
+        width: 100%;
+
+    }
+
+    .dashboard-header-actions a {
+
+        flex: 1;
+
+        text-align: center;
+
+    }
+
+}

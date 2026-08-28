@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/add_trade.css') }}"
+>
+
+{% endblock %}
+
+
+{% block title %}
+
+Add Trade | Forex Trading Journal
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="add-trade-page">
+
+    <div class="add-trade-container">
+
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <div class="add-trade-header">
+
+            <div>
+
+                <span class="add-trade-label">
+                    TRADE JOURNAL
+                </span>
+
+                <h1>
+                    Add New Trade
+                </h1>
+
+                <p>
+                    RECORD YOUR TRADE AND KEEP YOUR JOURNAL UPDATED.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('journal.journal') }}"
+                class="back-journal-btn"
+            >
+                ← BACK TO JOURNAL
+            </a>
+
+        </div>
+
+
+        <!-- =====================================================
+             FLASH MESSAGES
+        ====================================================== -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="add-trade-messages">
+
+                    {% for category, message in messages %}
+
+                        <div class="add-trade-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =====================================================
+             FORM CARD
+        ====================================================== -->
+
+        <div class="add-trade-card">
+
+            <form
+                method="POST"
+                action="{{ url_for('journal.add_trade') }}"
+                class="add-trade-form"
+                autocomplete="off"
+            >
+
+
+                <!-- =================================================
+                     1. DATE
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="trade_date">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="trade_date"
+                        name="trade_date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =================================================
+                     2. PAIR
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="pair_name">
+                        Trading Pair
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pair_name"
+                        name="pair_name"
+                        placeholder="e.g. XAUUSD"
+                        maxlength="20"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =================================================
+                     3. BUY / SELL
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="trade_type">
+                        Buy / Sell
+                    </label>
+
+                    <select
+                        id="trade_type"
+                        name="trade_type"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            selected
+                            disabled
+                        >
+                            Select trade type
+                        </option>
+
+                        <option value="Buy">
+                            Buy
+                        </option>
+
+                        <option value="Sell">
+                            Sell
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                
+             
+
+                <!-- =================================================
+                     5. LOT SIZE
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="lot_size">
+                        Lot Size
+                    </label>
+
+                    <input
+                        type="number"
+                        id="lot_size"
+                        name="lot_size"
+                        placeholder="e.g. 0.10"
+                        min="0"
+                        step="0.01"
+                        inputmode="decimal"
+                    >
+
+                </div>
+
+
+                <!-- =================================================
+                     6. PROFIT / LOSS
+                ================================================== -->
+
+                <div class="form-group">
+
+                    <label for="profit_loss">
+                        Profit / Loss
+                    </label>
+
+                    <input
+                        type="number"
+                        id="profit_loss"
+                        name="profit_loss"
+                        placeholder="e.g. 25.50 or -15.00"
+                        step="0.01"
+                        inputmode="decimal"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <!-- =================================================
+                     7. MISTAKE
+                ================================================== -->
+
+                <div class="form-group form-group-full">
+
+                    <label for="mistake">
+                        Mistake
+                    </label>
+
+                    <textarea
+                        id="mistake"
+                        name="mistake"
+                        rows="5"
+                        maxlength="1000"
+                        placeholder="What mistake did you make in this trade?"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <div class="form-actions">
+
+                    <a
+                        href="{{ url_for('journal.journal') }}"
+                        class="cancel-btn"
+                    >
+                        CANCEL
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="save-trade-btn"
+                    >
+                        SAVE TRADE
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

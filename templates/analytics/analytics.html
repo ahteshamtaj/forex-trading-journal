@@ -1,0 +1,303 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+Analytics - Forex Trading Journal
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/analytics.css') }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="analytics-page">
+
+    <div class="analytics-container">
+
+        <!-- HEADER -->
+
+        <div class="analytics-header">
+
+            <div>
+
+                <span class="analytics-label">
+                    TRADING ANALYTICS
+                </span>
+
+                <h1>
+                    PERFORMANCE ANALYTICS
+                </h1>
+
+                <p>
+                    ANALYZE YOUR TRADING PERFORMANCE AND REVIEW YOUR RESULTS
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('dashboard.dashboard') }}"
+                class="analytics-dashboard-btn"
+            >
+                ← DASHBOARD
+            </a>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="analytics-stats">
+
+            <div class="analytics-stat-card">
+
+                <span>Total Trades</span>
+
+                <strong>
+                    {{ total_trades }}
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat-card">
+
+                <span>Winning Trades</span>
+
+                <strong class="positive">
+                    {{ wins }}
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat-card">
+
+                <span>Losing Trades</span>
+
+                <strong class="negative">
+                    {{ losses }}
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat-card">
+
+                <span>Win Rate</span>
+
+                <strong>
+                    {{ win_rate }}%
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat-card">
+
+                <span>Total P/L</span>
+
+                <strong class="{% if total_profit > 0 %}positive{% elif total_profit < 0 %}negative{% endif %}">
+                    ${{ "%.2f"|format(total_profit) }}
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat-card">
+
+                <span>Best Trade</span>
+
+                <strong class="positive">
+                    ${{ "%.2f"|format(best_trade) }}
+                </strong>
+
+            </div>
+
+
+            <div class="analytics-stat-card">
+
+                <span>Worst Trade</span>
+
+                <strong class="negative">
+                    ${{ "%.2f"|format(worst_trade) }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAIR PERFORMANCE -->
+
+        <div class="analytics-card">
+
+            <div class="analytics-card-header">
+
+                <div>
+
+                    <h2>
+                        PAIR PERFORMANCE
+                    </h2>
+
+                    <p>
+                        PERFORMANCE BY TRADING PAIR
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if pair_data %}
+
+            <div class="analytics-table-wrapper">
+
+                <table class="analytics-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Pair</th>
+                            <th>Trades</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>Win Rate</th>
+                            <th>Total P/L</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for pair, data in pair_data.items() %}
+
+                        <tr>
+
+                            <td>
+                                <strong class="analytics-pair">
+                                    {{ pair }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ data.trades }}
+                            </td>
+
+                            <td class="positive">
+                                {{ data.wins }}
+                            </td>
+
+                            <td class="negative">
+                                {{ data.losses }}
+                            </td>
+
+                            <td>
+
+                                {% if data.trades > 0 %}
+
+                                    {{ "%.1f"|format(
+                                        (data.wins / data.trades) * 100
+                                    ) }}%
+
+                                {% else %}
+
+                                    0%
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if data.profit > 0 %}
+
+                                    <span class="positive">
+                                        +${{ "%.2f"|format(data.profit) }}
+                                    </span>
+
+                                {% elif data.profit < 0 %}
+
+                                    <span class="negative">
+                                        -${{ "%.2f"|format(data.profit|abs) }}
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="neutral">
+                                        $0.00
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <!-- EMPTY STATE -->
+
+            <div class="analytics-empty">
+
+                <div class="analytics-empty-icon">
+                    📊
+                </div>
+
+                <h3>
+                    No Analytics Yet
+                </h3>
+
+                <p>
+                    Add some trades to your journal to see
+                    detailed performance analytics here.
+                </p>
+
+                <a
+                    href="{{ url_for('journal.add_trade') }}"
+                    class="analytics-add-btn"
+                >
+                    + Add Trade
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- QUICK ACTION -->
+
+        <div class="analytics-footer-action">
+
+            <a
+                href="{{ url_for('journal.journal') }}"
+                class="analytics-journal-btn"
+            >
+                OPEN TRADE JOURNAL →
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

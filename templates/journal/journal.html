@@ -1,0 +1,385 @@
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/journal.css') }}"
+>
+
+{% endblock %}
+
+
+{% block title %}
+
+Forex Journal | Trading Journal
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="journal-page">
+
+    <div class="journal-container">
+
+
+        <!-- =========================================
+             HEADER
+        ========================================== -->
+
+        <div class="journal-header">
+
+            <div>
+
+                <span class="journal-label">
+                    TRADE JOURNAL
+                </span>
+
+                <h1>
+                    My Trading Journal
+                </h1>
+
+                <p>
+                    RECORD AND REVIEW YOUR TRADING PERFORMANCE
+                </p>
+
+            </div>
+
+
+            <!-- HEADER ACTIONS -->
+
+            <div class="journal-header-actions">
+
+                <!-- DASHBOARD -->
+
+                <a
+                    href="{{ url_for('dashboard.dashboard') }}"
+                    class="journal-dashboard-btn"
+                >
+                    ← Dashboard
+                </a>
+
+
+                <!-- ADD TRADE -->
+
+                <a
+                    href="{{ url_for('journal.add_trade') }}"
+                    class="journal-add-btn"
+                >
+                    + Add Trade
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             FLASH MESSAGES
+        ========================================== -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="journal-messages">
+
+                    {% for category, message in messages %}
+
+                        <div class="journal-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =========================================
+             TRADE HISTORY
+        ========================================== -->
+
+        <div class="journal-card">
+
+            <div class="journal-card-header">
+
+                <div>
+
+                    <h2>
+                        Trade History
+                    </h2>
+
+                    <p>
+                        YOUR RECORDED TRADES
+                    </p>
+
+                </div>
+
+
+                <span class="trade-count">
+                    {{ trades|length }} Trades
+                </span>
+
+            </div>
+
+
+            {% if trades %}
+
+
+                <!-- =====================================
+                     TRADE TABLE
+                ====================================== -->
+
+                <div class="journal-table-wrapper">
+
+                    <table class="journal-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Pair
+                                </th>
+
+                                <th>
+                                    Buy/Sell
+                                </th>
+
+                                <th>
+                                    Lot Size
+                                </th>
+
+                                <th>
+                                    Profit/Loss
+                                </th>
+
+                                <th>
+                                    Mistake
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for trade in trades %}
+
+                                <tr>
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+                                        {{ trade["trade_date"] }}
+                                    </td>
+
+
+                                    <!-- PAIR -->
+
+                                    <td>
+
+                                        <strong class="trade-pair">
+                                            {{ trade["pair_name"] }}
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- BUY / SELL -->
+
+                                    <td>
+
+                                        {% if trade["trade_type"]|lower == "buy" %}
+
+                                            <span class="trade-type buy">
+                                                BUY
+                                            </span>
+
+                                        {% elif trade["trade_type"]|lower == "sell" %}
+
+                                            <span class="trade-type sell">
+                                                SELL
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="trade-type">
+                                                {{ trade["trade_type"] }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- LOT SIZE -->
+
+                                    <td>
+
+                                        {{
+                                            trade["lot_size"]
+                                            if trade["lot_size"] is not none
+                                            else "-"
+                                        }}
+
+                                    </td>
+
+
+                                    <!-- PROFIT / LOSS -->
+
+                                    <td>
+
+                                        {% set profit = trade["profit_loss"]|float %}
+
+                                        {% if profit > 0 %}
+
+                                            <span class="profit positive">
+                                                +{{ "%.2f"|format(profit) }}
+                                            </span>
+
+                                        {% elif profit < 0 %}
+
+                                            <span class="profit negative">
+                                                {{ "%.2f"|format(profit) }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="profit neutral">
+                                                0.00
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- MISTAKE -->
+
+                                    <td>
+
+                                        {% if trade["mistake"] %}
+
+                                            <span class="mistake-text">
+                                                {{ trade["mistake"] }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="empty-value">
+                                                —
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- ACTION -->
+
+                                    <td>
+
+                                        <div class="trade-actions">
+
+
+                                            <!-- EDIT -->
+
+                                            <a
+                                                href="{{ url_for('journal.edit_trade', trade_id=trade['id']) }}"
+                                                class="edit-btn"
+                                            >
+                                                Edit
+                                            </a>
+
+
+                                            <!-- DELETE -->
+
+                                            <form
+                                                method="POST"
+                                                action="{{ url_for('journal.delete', trade_id=trade['id']) }}"
+                                                onsubmit="return confirm('Are you sure you want to delete this trade?');"
+                                            >
+
+                                                <button
+                                                    type="submit"
+                                                    class="delete-btn"
+                                                    aria-label="Delete trade"
+                                                >
+                                                    Delete
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+
+                <!-- =====================================
+                     EMPTY STATE
+                ====================================== -->
+
+                <div class="journal-empty">
+
+                    <div class="empty-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        No trades yet
+                    </h3>
+
+                    <p>
+                        Your trading history will appear here
+                        after you add your first trade.
+                    </p>
+
+                    <a
+                        href="{{ url_for('journal.add_trade') }}"
+                        class="empty-add-btn"
+                    >
+                        Add Your First Trade
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

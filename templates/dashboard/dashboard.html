@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/dashboard.css') }}"
+>
+
+{% endblock %}
+
+
+{% block title %}
+
+Dashboard - Forex Journal
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="dashboard-page">
+
+
+    <!-- =====================================================
+         DASHBOARD HEADER
+    ====================================================== -->
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <p class="dashboard-label">
+                TRADING DASHBOARD
+            </p>
+
+            <h1>
+                WELCOME, {{ session.get("user_name") }}
+            </h1>
+
+            <p>
+                HERE'S YOUR TRADING PERFORMANCE OVERVIEW
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             PROFILE
+        ================================================== -->
+
+        <a
+            href="{{ url_for('profile.profile') }}"
+            class="btn btn-secondary"
+        >
+            PROFILE
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="stats-grid">
+
+
+        <!-- TOTAL TRADES -->
+
+        <div class="stat-card">
+
+            <span>
+                TOTAL TRADES
+            </span>
+
+            <strong>
+                {{ total_trades }}
+            </strong>
+
+        </div>
+
+
+        <!-- WINNING TRADES -->
+
+        <div class="stat-card">
+
+            <span>
+                WINNING TRADES
+            </span>
+
+            <strong>
+                {{ wins }}
+            </strong>
+
+        </div>
+
+
+        <!-- LOSING TRADES -->
+
+        <div class="stat-card">
+
+            <span>
+                LOSING TRADES
+            </span>
+
+            <strong>
+                {{ losses }}
+            </strong>
+
+        </div>
+
+
+        <!-- WIN RATE -->
+
+        <div class="stat-card">
+
+            <span>
+                WIN RATE
+            </span>
+
+            <strong>
+                {{ win_rate }}%
+            </strong>
+
+        </div>
+
+
+        <!-- TOTAL PROFIT / LOSS -->
+
+        <div class="stat-card">
+
+            <span>
+                TOTAL P/L
+            </span>
+
+            <strong>
+                ${{ "%.2f"|format(total_profit) }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         DASHBOARD ACTIONS
+    ====================================================== -->
+
+    <div class="dashboard-journal-action">
+
+
+        <!-- OPEN TRADE JOURNAL -->
+
+        <a
+            href="{{ url_for('journal.journal') }}"
+            class="open-journal-btn"
+        >
+            <span></span>
+            OPEN TRADE JOURNAL
+        </a>
+
+
+       <!-- OPEN ANALYTICS -->
+
+<a 
+    href="{{ url_for('analytics.analytics') }}" 
+    class="open-journal-btn" 
+> 
+    <span></span> 
+    OPEN ANALYTICS 
+</a>
+
+    </div>
+
+
+    <!-- =====================================================
+         RECENT TRADES / EMPTY STATE
+    ====================================================== -->
+
+    <div class="dashboard-empty">
+
+
+        {% if total_trades == 0 %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty-icon">
+                📊
+            </div>
+
+            <h2>
+                No Trades Yet
+            </h2>
+
+            <p>
+                Your trading statistics will appear here
+                once you start adding trades.
+            </p>
+
+
+        {% else %}
+
+
+            <!-- RECENT TRADES -->
+
+            <h2>
+                YOUR RECENT TRADES
+            </h2>
+
+
+            <div class="trade-list">
+
+
+                {% for trade in trades[:5] %}
+
+
+                    <div class="trade-row">
+
+
+                        <!-- DATE -->
+
+                        <span>
+                            {{ trade["trade_date"] }}
+                        </span>
+
+
+                        <!-- PAIR -->
+
+                        <span>
+                            {{ trade["pair_name"] }}
+                        </span>
+
+
+                        <!-- BUY / SELL -->
+
+                        <span>
+                            {{ trade["trade_type"] }}
+                        </span>
+
+
+                        <!-- PROFIT / LOSS -->
+
+                        <span>
+                            ${{ "%.2f"|format(
+                                trade["profit_loss"] or 0
+                            ) }}
+                        </span>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</section>
+
+{% endblock %}

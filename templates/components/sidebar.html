@@ -1,0 +1,129 @@
+<aside class="sidebar">
+
+    <!-- =========================================
+         SIDEBAR BRAND
+    ========================================== -->
+
+    <div class="sidebar-brand">
+
+        <div class="sidebar-logo">
+            ↗
+        </div>
+
+        <div class="sidebar-brand-text">
+
+            <strong>
+                Forex Journal
+            </strong>
+
+            <span>
+                Trading Workspace
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         SIDEBAR NAVIGATION
+    ========================================== -->
+
+    <nav class="sidebar-nav">
+
+
+        <!-- MAIN -->
+
+        <div class="sidebar-section-title">
+            MAIN
+        </div>
+
+
+        <!-- DASHBOARD -->
+
+        <a
+            href="{{ url_for('dashboard.dashboard') }}"
+            class="sidebar-link"
+        >
+
+            <span class="sidebar-icon">
+                ⌂
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- ANALYTICS -->
+
+        <a
+            href="{{ url_for('dashboard.analytics') }}"
+            class="sidebar-link"
+        >
+
+            <span class="sidebar-icon">
+                ⌁
+            </span>
+
+            <span>
+                Analytics
+            </span>
+
+        </a>
+
+
+        <!-- TRADING -->
+
+        <div class="sidebar-section-title">
+            TRADING
+        </div>
+
+
+        <!-- TRADE JOURNAL -->
+
+        <a
+            href="{{ url_for('journal.journal') }}"
+            class="sidebar-link"
+        >
+
+            <span class="sidebar-icon">
+                ▤
+            </span>
+
+            <span>
+                Trade Journal
+            </span>
+
+        </a>
+
+
+    </nav>
+
+
+    <!-- =========================================
+         SIDEBAR BOTTOM
+    ========================================== -->
+
+    <div class="sidebar-bottom">
+
+        <a
+            href="{{ url_for('auth.logout') }}"
+            class="sidebar-link sidebar-logout"
+        >
+
+            <span class="sidebar-icon">
+                ↪
+            </span>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+    </div>
+
+</aside>

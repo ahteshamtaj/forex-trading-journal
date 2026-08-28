@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+        Forex Trading Journal
+        {% endblock %}
+    </title>
+
+
+    <!-- =========================================
+         MAIN CSS
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/main.css') }}"
+    >
+
+
+    <!-- =========================================
+         ANIMATIONS CSS
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/animations.css') }}"
+    >
+
+
+    <!-- =========================================
+         RESPONSIVE CSS
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/responsive.css') }}"
+    >
+
+
+    <!-- =========================================
+         PAGE SPECIFIC CSS
+    ========================================== -->
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    {% block navbar %}
+
+        {% include "components/navbar.html" %}
+
+    {% endblock %}
+
+
+    <!-- =========================================
+         FLASH MESSAGES
+    ========================================== -->
+
+    {% include "components/flash_messages.html" %}
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    {% block footer %}
+
+        {% include "components/footer.html" %}
+
+    {% endblock %}
+
+
+    <!-- =========================================
+         MAIN JAVASCRIPT
+    ========================================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/main.js') }}"
+    ></script>
+
+
+    <!-- =========================================
+         ANIMATIONS JAVASCRIPT
+    ========================================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/animations.js') }}"
+    ></script>
+
+
+    <!-- =========================================
+         PAGE SPECIFIC JAVASCRIPT
+    ========================================== -->
+
+    {% block extra_js %}
+    {% endblock %}
+
+
+</body>
+
+</html>
+
