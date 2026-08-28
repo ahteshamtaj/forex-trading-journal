@@ -5,9 +5,7 @@
 
 from flask import Flask, render_template
 
-
 from config import Config
-
 from utils.database import init_database
 
 
@@ -41,13 +39,9 @@ app.config.from_object(Config)
 # =========================================================
 
 app.register_blueprint(auth_bp)
-
 app.register_blueprint(dashboard_bp)
-
 app.register_blueprint(journal_bp)
-
 app.register_blueprint(analytics_bp)
-
 app.register_blueprint(profile_bp)
 
 
@@ -97,12 +91,13 @@ with app.app_context():
 
 
 # =========================================================
-# RUN APPLICATION
+# LOCAL DEVELOPMENT
 # =========================================================
 
 if __name__ == "__main__":
+
     app.run(
         host="0.0.0.0",
         port=5000,
-        debug=True
+        debug=False
     )
