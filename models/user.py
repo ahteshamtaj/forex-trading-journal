@@ -1,6 +1,7 @@
 # =========================================================
 # FOREX TRADING JOURNAL
 # models/user.py
+# Supabase User Model
 # =========================================================
 
 from utils.database import get_db_connection
@@ -12,20 +13,21 @@ from utils.database import get_db_connection
 
 def get_user_by_email(email):
 
-    connection = get_db_connection()
+    supabase = get_db_connection()
 
-    user = connection.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE email = ?
-        """,
-        (email,)
-    ).fetchone()
+    response = (
+        supabase
+        .table("users")
+        .select("*")
+        .eq("email", email)
+        .limit(1)
+        .execute()
+    )
 
-    connection.close()
+    if response.data:
+        return response.data[0]
 
-    return user
+    return None
 
 
 # =========================================================
@@ -34,20 +36,21 @@ def get_user_by_email(email):
 
 def get_user_by_id(user_id):
 
-    connection = get_db_connection()
+    supabase = get_db_connection()
 
-    user = connection.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE id = ?
-        """,
-        (user_id,)
-    ).fetchone()
+    response = (
+        supabase
+        .table("users")
+        .select("*")
+        .eq("id", user_id)
+        .limit(1)
+        .execute()
+    )
 
-    connection.close()
+    if response.data:
+        return response.data[0]
 
-    return user
+    return None
 
 
 # =========================================================
@@ -60,34 +63,25 @@ def create_user(
     password
 ):
 
-    connection = get_db_connection()
+    supabase = get_db_connection()
 
-    cursor = connection.cursor()
-
-    cursor.execute(
-        """
-        INSERT INTO users
-        (
-            name,
-            email,
-            password
-        )
-        VALUES (?, ?, ?)
-        """,
-        (
-            name,
-            email,
-            password
-        )
+    response = (
+        supabase
+        .table("users")
+        .insert({
+            "name": name,
+            "email": email,
+            "password": password
+        })
+        .execute()
     )
 
-    connection.commit()
+    if not response.data:
+        raise RuntimeError(
+            "User was not created in Supabase."
+        )
 
-    user_id = cursor.lastrowid
-
-    connection.close()
-
-    return user_id
+    return response.data[0]["id"]
 
 
 # =========================================================
@@ -99,20 +93,21 @@ def update_user_password(
     hashed_password
 ):
 
-    connection = get_db_connection()
+    supabase = get_db_connection()
 
-    connection.execute(
-        """
-        UPDATE users
-        SET password = ?
-        WHERE id = ?
-        """,
-        (
-            hashed_password,
-            user_id
-        )
+    response = (
+        supabase
+        .table("users")
+        .update({
+            "password": hashed_password
+        })
+        .eq("id", user_id)
+        .execute()
     )
 
-    connection.commit()
+    if not response.data:
+        raise RuntimeError(
+            "Password was not updated."
+        )
 
-    connection.close()
+    return True

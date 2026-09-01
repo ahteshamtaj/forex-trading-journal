@@ -52,189 +52,250 @@ auth_bp = Blueprint(
 )
 def register():
 
-    # Already logged in
+    # -----------------------------------------------------
+    # ALREADY LOGGED IN
+    # -----------------------------------------------------
+
     if session.get("user_id"):
 
         return redirect(
             url_for("dashboard.dashboard")
         )
 
+
+    # -----------------------------------------------------
+    # GET
+    # -----------------------------------------------------
+
+    if request.method == "GET":
+
+        return render_template(
+            "auth/register.html"
+        )
+
+
+    # -----------------------------------------------------
     # POST
-    if request.method == "POST":
+    # -----------------------------------------------------
 
-        name = request.form.get(
-            "name",
-            ""
-        ).strip()
+    name = request.form.get(
+        "name",
+        ""
+    ).strip()
 
-        email = request.form.get(
-            "email",
-            ""
-        ).strip().lower()
+    email = request.form.get(
+        "email",
+        ""
+    ).strip().lower()
 
-        password = request.form.get(
-            "password",
-            ""
+    password = request.form.get(
+        "password",
+        ""
+    )
+
+    confirm_password = request.form.get(
+        "confirm_password",
+        ""
+    )
+
+    terms = request.form.get(
+        "terms"
+    )
+
+
+    # -----------------------------------------------------
+    # VALIDATE NAME
+    # -----------------------------------------------------
+
+    if not validate_name(name):
+
+        flash(
+            "Please enter a valid name.",
+            "error"
         )
 
-        confirm_password = request.form.get(
-            "confirm_password",
-            ""
+        return redirect(
+            url_for("auth.register")
         )
 
-        terms = request.form.get(
-            "terms"
+
+    # -----------------------------------------------------
+    # VALIDATE EMAIL
+    # -----------------------------------------------------
+
+    if not validate_email(email):
+
+        flash(
+            "Please enter a valid email address.",
+            "error"
         )
 
-        # -----------------------------------------
-        # Validate Name
-        # -----------------------------------------
+        return redirect(
+            url_for("auth.register")
+        )
 
-        if not validate_name(name):
 
-            flash(
-                "Please enter a valid name.",
-                "error"
-            )
+    # -----------------------------------------------------
+    # VALIDATE PASSWORD
+    # -----------------------------------------------------
 
-            return redirect(
-                url_for("auth.register")
-            )
+    if not validate_password(password):
 
-        # -----------------------------------------
-        # Validate Email
-        # -----------------------------------------
+        flash(
+            "Password must meet the minimum security requirements.",
+            "error"
+        )
 
-        if not validate_email(email):
+        return redirect(
+            url_for("auth.register")
+        )
 
-            flash(
-                "Please enter a valid email address.",
-                "error"
-            )
 
-            return redirect(
-                url_for("auth.register")
-            )
+    # -----------------------------------------------------
+    # CONFIRM PASSWORD
+    # -----------------------------------------------------
 
-        # -----------------------------------------
-        # Validate Password
-        # -----------------------------------------
+    if password != confirm_password:
 
-        if not validate_password(password):
+        flash(
+            "Passwords do not match.",
+            "error"
+        )
 
-            flash(
-                "Password must meet the minimum security requirements.",
-                "error"
-            )
+        return redirect(
+            url_for("auth.register")
+        )
 
-            return redirect(
-                url_for("auth.register")
-            )
 
-        # -----------------------------------------
-        # Confirm Password
-        # -----------------------------------------
+    # -----------------------------------------------------
+    # TERMS
+    # -----------------------------------------------------
 
-        if password != confirm_password:
+    if not terms:
 
-            flash(
-                "Passwords do not match.",
-                "error"
-            )
+        flash(
+            "Please accept the Terms and Privacy Policy.",
+            "error"
+        )
 
-            return redirect(
-                url_for("auth.register")
-            )
+        return redirect(
+            url_for("auth.register")
+        )
 
-        # -----------------------------------------
-        # Terms
-        # -----------------------------------------
 
-        if not terms:
+    # -----------------------------------------------------
+    # CHECK EXISTING USER
+    # -----------------------------------------------------
 
-            flash(
-                "Please accept the Terms and Privacy Policy.",
-                "error"
-            )
-
-            return redirect(
-                url_for("auth.register")
-            )
-
-        # -----------------------------------------
-        # Existing User
-        # -----------------------------------------
+    try:
 
         existing_user = get_user_by_email(
             email
         )
 
-        if existing_user:
+    except Exception as error:
 
-            flash(
-                "An account with this email already exists.",
-                "error"
-            )
-
-            return redirect(
-                url_for("auth.register")
-            )
-
-        # -----------------------------------------
-        # Hash Password
-        # -----------------------------------------
-
-        hashed_password = generate_password_hash(
-            password
-        )
-
-        # -----------------------------------------
-        # Create User
-        # -----------------------------------------
-
-        try:
-
-            user_id = create_user(
-                name,
-                email,
-                hashed_password
-            )
-
-        except Exception as error:
-
-            print("REGISTER ERROR:", error)
-
-            flash(
-                "Something went wrong while creating your account.",
-                "error"
-            )
-
-            return redirect(
-                url_for("auth.register")
-            )
-
-        # -----------------------------------------
-        # Login Automatically
-        # -----------------------------------------
-
-        session.clear()
-
-        session["user_id"] = user_id
-
-        session["user_name"] = name
+        print("\n")
+        print("=" * 60)
+        print("DATABASE ERROR - CHECKING EXISTING USER")
+        print("=" * 60)
+        print("ERROR:", error)
+        print("=" * 60)
+        print("\n")
 
         flash(
-            "Account created successfully!",
-            "success"
+            "Unable to connect to the database.",
+            "error"
         )
 
         return redirect(
-            url_for("dashboard.dashboard")
+            url_for("auth.register")
         )
 
-    # GET
-    return render_template(
-        "auth/register.html"
+
+    if existing_user:
+
+        flash(
+            "An account with this email already exists.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.register")
+        )
+
+
+    # -----------------------------------------------------
+    # HASH PASSWORD
+    # -----------------------------------------------------
+
+    hashed_password = generate_password_hash(
+        password
+    )
+
+
+    # -----------------------------------------------------
+    # CREATE USER
+    # -----------------------------------------------------
+
+    try:
+
+        user_id = create_user(
+            name,
+            email,
+            hashed_password
+        )
+
+    except Exception as error:
+
+        # IMPORTANT:
+        # Show complete error in terminal
+        import traceback
+
+        print("\n")
+        print("=" * 70)
+        print("REGISTER ERROR")
+        print("=" * 70)
+        print("ERROR:", error)
+        print("-" * 70)
+
+        traceback.print_exc()
+
+        print("=" * 70)
+        print("\n")
+
+        flash(
+            "Something went wrong while creating your account.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.register")
+        )
+
+
+    # -----------------------------------------------------
+    # AUTO LOGIN
+    # -----------------------------------------------------
+
+    session.clear()
+
+    session["user_id"] = user_id
+
+    session["user_name"] = name
+
+
+    # -----------------------------------------------------
+    # SUCCESS
+    # -----------------------------------------------------
+
+    flash(
+        "Account created successfully!",
+        "success"
+    )
+
+    return redirect(
+        url_for("dashboard.dashboard")
     )
 
 
@@ -248,104 +309,170 @@ def register():
 )
 def login():
 
-    # Already logged in
+    # -----------------------------------------------------
+    # ALREADY LOGGED IN
+    # -----------------------------------------------------
+
     if session.get("user_id"):
 
         return redirect(
             url_for("dashboard.dashboard")
         )
 
-    # POST
-    if request.method == "POST":
 
-        email = request.form.get(
-            "email",
-            ""
-        ).strip().lower()
+    # -----------------------------------------------------
+    # GET
+    # -----------------------------------------------------
 
-        password = request.form.get(
-            "password",
-            ""
+    if request.method == "GET":
+
+        return render_template(
+            "auth/login.html"
         )
 
-        # -----------------------------------------
-        # Empty Fields
-        # -----------------------------------------
 
-        if not email or not password:
+    # -----------------------------------------------------
+    # POST
+    # -----------------------------------------------------
 
-            flash(
-                "Please enter your email and password.",
-                "error"
-            )
+    email = request.form.get(
+        "email",
+        ""
+    ).strip().lower()
 
-            return redirect(
-                url_for("auth.login")
-            )
+    password = request.form.get(
+        "password",
+        ""
+    )
 
-        # -----------------------------------------
-        # Find User
-        # -----------------------------------------
+
+    # -----------------------------------------------------
+    # EMPTY FIELDS
+    # -----------------------------------------------------
+
+    if not email or not password:
+
+        flash(
+            "Please enter your email and password.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.login")
+        )
+
+
+    # -----------------------------------------------------
+    # GET USER
+    # -----------------------------------------------------
+
+    try:
 
         user = get_user_by_email(
             email
         )
 
-        # -----------------------------------------
-        # User Not Found
-        # -----------------------------------------
+    except Exception as error:
 
-        if user is None:
-
-            flash(
-                "Invalid email or password.",
-                "error"
-            )
-
-            return redirect(
-                url_for("auth.login")
-            )
-
-        # -----------------------------------------
-        # Check Password
-        # -----------------------------------------
-
-        if not check_password_hash(
-            user["password"],
-            password
-        ):
-
-            flash(
-                "Invalid email or password.",
-                "error"
-            )
-
-            return redirect(
-                url_for("auth.login")
-            )
-
-        # -----------------------------------------
-        # Create Session
-        # -----------------------------------------
-
-        session.clear()
-
-        session["user_id"] = user["id"]
-
-        session["user_name"] = user["name"]
+        print("\n")
+        print("=" * 60)
+        print("LOGIN DATABASE ERROR")
+        print("=" * 60)
+        print("ERROR:", error)
+        print("=" * 60)
+        print("\n")
 
         flash(
-            "Welcome back!",
-            "success"
+            "Unable to connect to the database.",
+            "error"
         )
 
         return redirect(
-            url_for("dashboard.dashboard")
+            url_for("auth.login")
         )
 
-    # GET
-    return render_template(
-        "auth/login.html"
+
+    # -----------------------------------------------------
+    # USER NOT FOUND
+    # -----------------------------------------------------
+
+    if user is None:
+
+        flash(
+            "Invalid email or password.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.login")
+        )
+
+
+    # -----------------------------------------------------
+    # CHECK PASSWORD
+    # -----------------------------------------------------
+
+    try:
+
+        password_valid = check_password_hash(
+            user["password"],
+            password
+        )
+
+    except Exception as error:
+
+        print("\n")
+        print("=" * 60)
+        print("PASSWORD CHECK ERROR")
+        print("=" * 60)
+        print("ERROR:", error)
+        print("=" * 60)
+        print("\n")
+
+        flash(
+            "Unable to verify your password.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.login")
+        )
+
+
+    if not password_valid:
+
+        flash(
+            "Invalid email or password.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.login")
+        )
+
+
+    # -----------------------------------------------------
+    # CREATE SESSION
+    # -----------------------------------------------------
+
+    session.clear()
+
+    session["user_id"] = user["id"]
+
+    session["user_name"] = user["name"]
+
+
+    # -----------------------------------------------------
+    # SUCCESS
+    # -----------------------------------------------------
+
+    flash(
+        "Welcome back!",
+        "success"
+    )
+
+    return redirect(
+        url_for("dashboard.dashboard")
     )
 
 
@@ -363,80 +490,111 @@ def login():
 )
 def forgot_password():
 
-    # Already logged in
+    # -----------------------------------------------------
+    # ALREADY LOGGED IN
+    # -----------------------------------------------------
+
     if session.get("user_id"):
 
         return redirect(
             url_for("dashboard.dashboard")
         )
 
-    # -----------------------------------------
+
+    # -----------------------------------------------------
+    # GET
+    # -----------------------------------------------------
+
+    if request.method == "GET":
+
+        return render_template(
+            "auth/forgot_password.html"
+        )
+
+
+    # -----------------------------------------------------
     # POST
-    # -----------------------------------------
+    # -----------------------------------------------------
 
-    if request.method == "POST":
+    email = request.form.get(
+        "email",
+        ""
+    ).strip().lower()
 
-        email = request.form.get(
-            "email",
-            ""
-        ).strip().lower()
 
-        # -------------------------------------
-        # Validate Email
-        # -------------------------------------
+    # -----------------------------------------------------
+    # VALIDATE EMAIL
+    # -----------------------------------------------------
 
-        if not validate_email(email):
+    if not validate_email(email):
 
-            flash(
-                "Please enter a valid email address.",
-                "error"
-            )
+        flash(
+            "Please enter a valid email address.",
+            "error"
+        )
 
-            return redirect(
-                url_for("auth.forgot_password")
-            )
+        return redirect(
+            url_for("auth.forgot_password")
+        )
 
-        # -------------------------------------
-        # Find User
-        # -------------------------------------
+
+    # -----------------------------------------------------
+    # FIND USER
+    # -----------------------------------------------------
+
+    try:
 
         user = get_user_by_email(
             email
         )
 
-        if user is None:
+    except Exception as error:
 
-            flash(
-                "No account was found with this email.",
-                "error"
-            )
+        print("\n")
+        print("=" * 60)
+        print("FORGOT PASSWORD DATABASE ERROR")
+        print("=" * 60)
+        print("ERROR:", error)
+        print("=" * 60)
+        print("\n")
 
-            return redirect(
-                url_for("auth.forgot_password")
-            )
-
-        # -------------------------------------
-        # Temporary Reset Session
-        # -------------------------------------
-
-        session["password_reset_user_id"] = user["id"]
-
-        session["password_reset_email"] = user["email"]
-
-        # -------------------------------------
-        # Go To Reset Password
-        # -------------------------------------
-
-        return redirect(
-            url_for("auth.reset_password")
+        flash(
+            "Unable to connect to the database.",
+            "error"
         )
 
-    # -----------------------------------------
-    # GET
-    # -----------------------------------------
+        return redirect(
+            url_for("auth.forgot_password")
+        )
 
-    return render_template(
-        "auth/forgot_password.html"
+
+    if user is None:
+
+        flash(
+            "No account was found with this email.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.forgot_password")
+        )
+
+
+    # -----------------------------------------------------
+    # PASSWORD RESET SESSION
+    # -----------------------------------------------------
+
+    session["password_reset_user_id"] = user["id"]
+
+    session["password_reset_email"] = user["email"]
+
+
+    # -----------------------------------------------------
+    # RESET PASSWORD
+    # -----------------------------------------------------
+
+    return redirect(
+        url_for("auth.reset_password")
     )
 
 
@@ -458,9 +616,10 @@ def reset_password():
         "password_reset_user_id"
     )
 
-    # -----------------------------------------
-    # No Reset Session
-    # -----------------------------------------
+
+    # -----------------------------------------------------
+    # NO RESET SESSION
+    # -----------------------------------------------------
 
     if not user_id:
 
@@ -473,117 +632,137 @@ def reset_password():
             url_for("auth.forgot_password")
         )
 
-    # -----------------------------------------
+
+    # -----------------------------------------------------
+    # GET
+    # -----------------------------------------------------
+
+    if request.method == "GET":
+
+        return render_template(
+            "auth/reset_password.html"
+        )
+
+
+    # -----------------------------------------------------
     # POST
-    # -----------------------------------------
+    # -----------------------------------------------------
 
-    if request.method == "POST":
+    password = request.form.get(
+        "password",
+        ""
+    )
 
-        password = request.form.get(
-            "password",
-            ""
-        )
+    confirm_password = request.form.get(
+        "confirm_password",
+        ""
+    )
 
-        confirm_password = request.form.get(
-            "confirm_password",
-            ""
-        )
 
-        # -------------------------------------
-        # Validate Password
-        # -------------------------------------
+    # -----------------------------------------------------
+    # VALIDATE PASSWORD
+    # -----------------------------------------------------
 
-        if not validate_password(password):
-
-            flash(
-                "Password must meet the minimum security requirements.",
-                "error"
-            )
-
-            return redirect(
-                url_for("auth.reset_password")
-            )
-
-        # -------------------------------------
-        # Confirm Password
-        # -------------------------------------
-
-        if password != confirm_password:
-
-            flash(
-                "Passwords do not match.",
-                "error"
-            )
-
-            return redirect(
-                url_for("auth.reset_password")
-            )
-
-        # -------------------------------------
-        # Hash New Password
-        # -------------------------------------
-
-        hashed_password = generate_password_hash(
-            password
-        )
-
-        # -------------------------------------
-        # Update Password
-        # -------------------------------------
-
-        try:
-
-            update_user_password(
-                user_id,
-                hashed_password
-            )
-
-        except Exception as error:
-
-            print("PASSWORD RESET ERROR:", error)
-
-            flash(
-                "Unable to update your password. Please try again.",
-                "error"
-            )
-
-            return redirect(
-                url_for("auth.reset_password")
-            )
-
-        # -------------------------------------
-        # Clear Reset Session
-        # -------------------------------------
-
-        session.pop(
-            "password_reset_user_id",
-            None
-        )
-
-        session.pop(
-            "password_reset_email",
-            None
-        )
-
-        # -------------------------------------
-        # Success
-        # -------------------------------------
+    if not validate_password(password):
 
         flash(
-            "Password reset successfully. You can now login.",
-            "success"
+            "Password must meet the minimum security requirements.",
+            "error"
         )
 
         return redirect(
-            url_for("auth.login")
+            url_for("auth.reset_password")
         )
 
-    # -----------------------------------------
-    # GET
-    # -----------------------------------------
 
-    return render_template(
-        "auth/reset_password.html"
+    # -----------------------------------------------------
+    # CONFIRM PASSWORD
+    # -----------------------------------------------------
+
+    if password != confirm_password:
+
+        flash(
+            "Passwords do not match.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.reset_password")
+        )
+
+
+    # -----------------------------------------------------
+    # HASH PASSWORD
+    # -----------------------------------------------------
+
+    hashed_password = generate_password_hash(
+        password
+    )
+
+
+    # -----------------------------------------------------
+    # UPDATE PASSWORD
+    # -----------------------------------------------------
+
+    try:
+
+        update_user_password(
+            user_id,
+            hashed_password
+        )
+
+    except Exception as error:
+
+        import traceback
+
+        print("\n")
+        print("=" * 70)
+        print("PASSWORD RESET ERROR")
+        print("=" * 70)
+        print("ERROR:", error)
+        print("-" * 70)
+
+        traceback.print_exc()
+
+        print("=" * 70)
+        print("\n")
+
+        flash(
+            "Unable to update your password. Please try again.",
+            "error"
+        )
+
+        return redirect(
+            url_for("auth.reset_password")
+        )
+
+
+    # -----------------------------------------------------
+    # CLEAR RESET SESSION
+    # -----------------------------------------------------
+
+    session.pop(
+        "password_reset_user_id",
+        None
+    )
+
+    session.pop(
+        "password_reset_email",
+        None
+    )
+
+
+    # -----------------------------------------------------
+    # SUCCESS
+    # -----------------------------------------------------
+
+    flash(
+        "Password reset successfully. You can now login.",
+        "success"
+    )
+
+    return redirect(
+        url_for("auth.login")
     )
 
 

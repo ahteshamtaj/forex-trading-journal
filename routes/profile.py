@@ -1,6 +1,7 @@
 # =========================================================
 # FOREX TRADING JOURNAL
 # routes/profile.py
+# Supabase Profile Routes
 # =========================================================
 
 from flask import (
@@ -30,7 +31,10 @@ profile_bp = Blueprint(
 # PROFILE PAGE
 # =========================================================
 
-@profile_bp.route("/profile", methods=["GET", "POST"])
+@profile_bp.route(
+    "/profile",
+    methods=["GET", "POST"]
+)
 def profile():
 
     # -----------------------------------------------------
@@ -46,37 +50,70 @@ def profile():
 
     user_id = session["user_id"]
 
-    connection = get_db_connection()
+    supabase = get_db_connection()
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # GET USER
+    # =====================================================
+
+    try:
+
+        response = (
+            supabase
+            .table("users")
+            .select("*")
+            .eq("id", user_id)
+            .limit(1)
+            .execute()
+        )
+
+        users = response.data or []
+
+    except Exception as error:
+
+        print("\n")
+        print("=" * 70)
+        print("PROFILE DATABASE ERROR")
+        print("=" * 70)
+        print("ERROR:", error)
+        print("=" * 70)
+        print("\n")
+
+        flash(
+            "Unable to connect to the database.",
+            "error"
+        )
+
+        return redirect(
+            url_for("dashboard.dashboard")
+        )
+
+
+    # -----------------------------------------------------
+    # USER NOT FOUND
     # -----------------------------------------------------
 
-    user = connection.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE id = ?
-        """,
-        (user_id,)
-    ).fetchone()
-
-
-    if user is None:
-
-        connection.close()
+    if not users:
 
         session.clear()
+
+        flash(
+            "User account was not found.",
+            "error"
+        )
 
         return redirect(
             url_for("auth.login")
         )
 
 
-    # -----------------------------------------------------
+    user = users[0]
+
+
+    # =====================================================
     # UPDATE PROFILE
-    # -----------------------------------------------------
+    # =====================================================
 
     if request.method == "POST":
 
@@ -88,11 +125,11 @@ def profile():
         email = request.form.get(
             "email",
             ""
-        ).strip()
+        ).strip().lower()
 
 
         # -------------------------------------------------
-        # VALIDATION
+        # NAME VALIDATION
         # -------------------------------------------------
 
         if not name:
@@ -102,12 +139,14 @@ def profile():
                 "error"
             )
 
-            connection.close()
-
             return redirect(
                 url_for("profile.profile")
             )
 
+
+        # -------------------------------------------------
+        # EMAIL VALIDATION
+        # -------------------------------------------------
 
         if not email:
 
@@ -116,32 +155,63 @@ def profile():
                 "error"
             )
 
-            connection.close()
-
             return redirect(
                 url_for("profile.profile")
             )
 
 
-        # -------------------------------------------------
-        # UPDATE USER
-        # -------------------------------------------------
+        # =================================================
+        # UPDATE USER IN SUPABASE
+        # =================================================
 
-        connection.execute(
-            """
-            UPDATE users
-            SET name = ?,
-                email = ?
-            WHERE id = ?
-            """,
-            (
-                name,
-                email,
-                user_id
+        try:
+
+            response = (
+                supabase
+                .table("users")
+                .update({
+                    "name": name,
+                    "email": email
+                })
+                .eq("id", user_id)
+                .execute()
             )
-        )
 
-        connection.commit()
+
+            # -------------------------------------------------
+            # CHECK UPDATE RESULT
+            # -------------------------------------------------
+
+            if not response.data:
+
+                flash(
+                    "Profile could not be updated.",
+                    "error"
+                )
+
+                return redirect(
+                    url_for("profile.profile")
+                )
+
+
+        except Exception as error:
+
+            print("\n")
+            print("=" * 70)
+            print("PROFILE UPDATE ERROR")
+            print("=" * 70)
+            print("ERROR:", error)
+            print("=" * 70)
+            print("\n")
+
+            flash(
+                "Unable to update your profile.",
+                "error"
+            )
+
+            return redirect(
+                url_for("profile.profile")
+            )
 
 
         # -------------------------------------------------
@@ -153,48 +223,45 @@ def profile():
         session["user_email"] = email
 
 
-        connection.close()
-
+        # -------------------------------------------------
+        # SUCCESS
+        # -------------------------------------------------
 
         flash(
             "Profile updated successfully.",
             "success"
         )
 
-
         return redirect(
             url_for("profile.profile")
         )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # GET NAME + EMAIL
-    # -----------------------------------------------------
+    # =====================================================
 
-    try:
-        user_name = user["name"]
-    except (KeyError, IndexError):
-        user_name = session.get(
+    user_name = user.get(
+        "name",
+        session.get(
             "user_name",
             ""
         )
+    )
 
 
-    try:
-        user_email = user["email"]
-    except (KeyError, IndexError):
-        user_email = session.get(
+    user_email = user.get(
+        "email",
+        session.get(
             "user_email",
             ""
         )
+    )
 
 
-    connection.close()
-
-
-    # -----------------------------------------------------
+    # =====================================================
     # PROFILE INITIAL
-    # -----------------------------------------------------
+    # =====================================================
 
     profile_initial = (
         user_name[:1].upper()
@@ -203,9 +270,16 @@ def profile():
     )
 
 
+    # =====================================================
+    # RENDER PROFILE
+    # =====================================================
+
     return render_template(
         "profile/profile.html",
+
         user_name=user_name,
+
         user_email=user_email,
+
         profile_initial=profile_initial
     )

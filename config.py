@@ -4,6 +4,14 @@
 # =========================================================
 
 import os
+from dotenv import load_dotenv
+
+
+# =========================================================
+# LOAD ENVIRONMENT VARIABLES
+# =========================================================
+
+load_dotenv()
 
 
 # =========================================================
@@ -21,9 +29,9 @@ BASE_DIR = os.path.abspath(
 
 class Config:
 
-    # -----------------------------------------------
+    # -----------------------------------------------------
     # Environment
-    # -----------------------------------------------
+    # -----------------------------------------------------
 
     ENV = os.environ.get(
         "APP_ENV",
@@ -31,26 +39,49 @@ class Config:
     )
 
 
-    # -----------------------------------------------
-    # Secret Key
-    # -----------------------------------------------
+    # -----------------------------------------------------
+    # Flask Secret Key
+    # -----------------------------------------------------
 
     SECRET_KEY = os.environ.get(
         "SECRET_KEY"
     )
 
-    if not SECRET_KEY and ENV != "production":
+    if not SECRET_KEY:
         SECRET_KEY = "development-only-secret-key"
 
-    if ENV == "production" and not SECRET_KEY:
+
+    # -----------------------------------------------------
+    # Supabase
+    # -----------------------------------------------------
+
+    SUPABASE_URL = os.environ.get(
+        "SUPABASE_URL"
+    )
+
+    SUPABASE_PUBLISHABLE_KEY = os.environ.get(
+        "SUPABASE_PUBLISHABLE_KEY"
+    )
+
+
+    # -----------------------------------------------------
+    # Validate Supabase Configuration
+    # -----------------------------------------------------
+
+    if not SUPABASE_URL:
         raise RuntimeError(
-            "SECRET_KEY environment variable is required in production."
+            "SUPABASE_URL is missing from .env"
+        )
+
+    if not SUPABASE_PUBLISHABLE_KEY:
+        raise RuntimeError(
+            "SUPABASE_PUBLISHABLE_KEY is missing from .env"
         )
 
 
-    # -----------------------------------------------
-    # Database
-    # -----------------------------------------------
+    # -----------------------------------------------------
+    # Local Database
+    # -----------------------------------------------------
 
     DATABASE = os.path.join(
         BASE_DIR,
@@ -59,9 +90,9 @@ class Config:
     )
 
 
-    # -----------------------------------------------
+    # -----------------------------------------------------
     # Session Security
-    # -----------------------------------------------
+    # -----------------------------------------------------
 
     SESSION_COOKIE_HTTPONLY = True
 
@@ -71,11 +102,13 @@ class Config:
         ENV == "production"
     )
 
-
-    # -----------------------------------------------
-    # Additional Security
-    # -----------------------------------------------
-
-    SESSION_COOKIE_NAME = "forex_journal_session"
+    SESSION_COOKIE_NAME = (
+        "forex_journal_session"
+    )
 
     SESSION_REFRESH_EACH_REQUEST = True
+
+
+# =========================================================
+# END OF CONFIG
+# =========================================================
